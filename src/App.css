@@ -1,0 +1,110 @@
+/* Estilo global */
+body {
+  background-color: #f8f6fc;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #343a40;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #6f42c1 !important;
+}
+
+.navbar a {
+  color: #ffffff !important;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover,
+.navbar a.active {
+  color: #ffe66d !important;
+  font-weight: bold;
+}
+
+/* Botones */
+.btn-primary {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+}
+
+.btn-primary:hover {
+  background-color: #5a32a3;
+  border-color: #5a32a3;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #218838;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+}
+
+/* Inputs y formularios */
+.form-control:focus {
+  border-color: #6f42c1;
+  box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+}
+
+/* Tarjetas */
+.card {
+  box-shadow: 0 0 10px rgba(111, 66, 193, 0.1);
+  border: none;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.card-title {
+  color: #6f42c1;
+}
+
+/* Productos */
+.product-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.product-description {
+  font-size: 0.9rem;
+}
+
+.product-price {
+  font-size: 1.2rem;
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Logo animado */
+.App-logo {
+  height: 40vmin;
+  animation: App-logo-spin infinite 20s linear;
+  pointer-events: none;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
