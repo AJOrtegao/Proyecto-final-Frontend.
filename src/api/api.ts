@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || 'http://localhost:3060',
+  baseURL: process.env.REACT_APP_BACKEND_URL || 'http://localhost:3060',
 });
 
 // 🔐 Interceptor para agregar token automáticamente a cada request
