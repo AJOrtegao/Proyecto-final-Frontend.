@@ -70,7 +70,7 @@ const App: React.FC = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/contacto" element={<ContactPage />} />
           <Route path="/productos" element={<Productos products={products} addToCart={addToCart} />} />
-          <Route path="/carrito" element={<PrivateRoute><Cart cart={cart} setCart={setCart} removeFromCart={removeFromCart} calculateTotal={calculateTotal}/></PrivateRoute>} />
+          <Route path="/carrito" element={<Cart cart={cart} setCart={setCart} removeFromCart={removeFromCart} calculateTotal={calculateTotal} />} />
           <Route path="/checkout" element={<PrivateRoute><CheckoutPage cart={cart} setCart={setCart} calculateTotal={calculateTotal}/></PrivateRoute>} />
           <Route path="/pago" element={<PrivateRoute><PaymentPage total={calculateTotal()} orderId={123}/></PrivateRoute>} />
           <Route path="/admin" element={<PrivateRoute adminOnly><AdminPanel /></PrivateRoute>} />

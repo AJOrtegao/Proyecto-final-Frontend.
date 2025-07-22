@@ -1,3 +1,4 @@
+// Cart.tsx
 import React from 'react';
 import { Button, Container, Row, Col, Card, Form } from 'react-bootstrap';
 import ProductCard from '../components/ProductCard';
@@ -21,6 +22,19 @@ interface CartProps {
 
 const Cart: React.FC<CartProps> = ({ cart, removeFromCart, calculateTotal, setCart }) => {
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+
+  // ⛔ Usuario no logueado
+  if (!token) {
+    return (
+      <Container className="mt-5 text-center">
+        <h4>🚫 Debes iniciar sesión para ver tu carrito.</h4>
+        <Button variant="primary" onClick={() => navigate('/login')} className="mt-3">
+          Iniciar Sesión
+        </Button>
+      </Container>
+    );
+  }
 
   const handleConfirmarPedido = () => {
     navigate('/checkout');
@@ -87,4 +101,3 @@ const Cart: React.FC<CartProps> = ({ cart, removeFromCart, calculateTotal, setCa
 };
 
 export default Cart;
-

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/slices/user.slice';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 import API from '../api/api';
 
@@ -10,7 +10,6 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,10 +23,12 @@ const Login: React.FC = () => {
 
       localStorage.setItem('token', token);
       localStorage.setItem('role', user.role);
-      localStorage.setItem('userId', user.id); // lo usaremos para futuras acciones como obtener órdenes
+      localStorage.setItem('userId', user.id);
 
       dispatch(login(user));
-      navigate('/');
+
+      // Refrescar página y redirigir al inicio
+      window.location.href = '/';
     } catch (err: any) {
       console.error('Error en login:', err);
       setError(
