@@ -7,11 +7,19 @@ import { RootState } from '../redux/store';
 export default function NavigationBar() {
   const user = useSelector((state: RootState) => state.user);
   const [role, setRole] = useState<string | null>(null);
- 
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
   useEffect(() => {
     const storedRole = localStorage.getItem('role');
+    const token = localStorage.getItem('token');
     setRole(storedRole);
+    setIsLoggedIn(!!token);
   }, []);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = '/login';
+  };
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -32,6 +40,17 @@ export default function NavigationBar() {
             <NavLink to="/carrito" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Carrito</NavLink>
             {role === 'admin' && (
               <NavLink to="/admin" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Admin Panel</NavLink>
+            )}
+          </Nav>
+
+          <Nav className="ms-auto">
+            {isLoggedIn ? (
+              <Nav.Link onClick={handleLogout}>Cerrar Sesión</Nav.Link>
+            ) : (
+              <>
+                <NavLink to="/login" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Iniciar Sesión</NavLink>
+                <NavLink to="/register" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Registrarse</NavLink>
+              </>
             )}
           </Nav>
         </Navbar.Collapse>

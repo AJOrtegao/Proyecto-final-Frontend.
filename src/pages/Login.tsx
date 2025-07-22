@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../redux/slices/user.slice';
 import { useNavigate, Link } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
-import API from '../api/api'; // 🔁 Usamos instancia de Axios configurada
+import API from '../api/api';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -24,12 +24,15 @@ const Login: React.FC = () => {
 
       localStorage.setItem('token', token);
       localStorage.setItem('role', user.role);
+      localStorage.setItem('userId', user.id); // lo usaremos para futuras acciones como obtener órdenes
 
       dispatch(login(user));
       navigate('/');
-    } catch (err) {
-      console.error(err);
-      setError('Credenciales incorrectas');
+    } catch (err: any) {
+      console.error('Error en login:', err);
+      setError(
+        err.response?.data?.message || 'Error al iniciar sesión. Intenta nuevamente.'
+      );
     }
   };
 
@@ -60,8 +63,6 @@ const Login: React.FC = () => {
           Entrar
         </Button>
       </Form>
-
-      {/* Enlace a registro */}
       <div className="mt-3 text-center">
         <span>¿No tienes cuenta? </span>
         <Link to="/register">Regístrate aquí</Link>
