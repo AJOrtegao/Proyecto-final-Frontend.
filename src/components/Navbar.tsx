@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Navbar, Nav, Container } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/slices/user.slice';
 
 export default function NavigationBar() {
-  const user = useSelector((state: RootState) => state.user);
   const [role, setRole] = useState<string | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const storedRole = localStorage.getItem('role');
     const token = localStorage.getItem('token');
     setRole(storedRole);
-    setIsLoggedIn(!!token);
+    setIsAuthenticated(!!token);
   }, []);
 
   const handleLogout = () => {
     localStorage.clear();
-    window.location.href = '/login';
+    dispatch(logout());
+    navigate('/login');
+    window.location.reload(); // Forzar re-render del navbar
   };
 
   return (
@@ -43,14 +46,16 @@ export default function NavigationBar() {
             )}
           </Nav>
 
-          <Nav className="ms-auto">
-            {isLoggedIn ? (
-              <Nav.Link onClick={handleLogout}>Cerrar Sesión</Nav.Link>
-            ) : (
+          <Nav>
+            {!isAuthenticated ? (
               <>
-                <NavLink to="/login" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Iniciar Sesión</NavLink>
-                <NavLink to="/register" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Registrarse</NavLink>
+                <NavLink to="/login" className="nav-link">Iniciar Sesión</NavLink>
+                <NavLink to="/register" className="nav-link">Registrarse</NavLink>
               </>
+            ) : (
+              <Button variant="outline-light" size="sm" onClick={handleLogout}>
+                Cerrar Sesión
+              </Button>
             )}
           </Nav>
         </Navbar.Collapse>
