@@ -29,21 +29,21 @@ const sampleProducts: Product[] = [
     name: 'Jarabe para la tos',
     description: 'Jarabe expectorante con miel y eucalipto.',
     price: 5.0,
-    imageUrl: 'https://via.placeholder.com/200x180.png?text=Jarabe',
+    imageUrl: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.supermaxi.com%2Fproducto%2Fjarabe-para-la-tos-con-mentol-abrilar-100-ml%2F&psig=AOvVaw3pxkbm70OUdQnVZGfOmu31&ust=1753298743471000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCLC45PiY0Y4DFQAAAAAdAAAAABAE',
   },
   {
     _id: '3',
     name: 'Vitamina C 1000mg',
     description: 'Refuerza tu sistema inmunológico.',
     price: 3.75,
-    imageUrl: 'https://via.placeholder.com/200x180.png?text=Vitamina+C',
+    imageUrl: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Frightnutrition.com.ec%2Fproduct%2Fvitamina-c-1000-mg-100-tab%2F&psig=AOvVaw1eSzmTIP3OFTAhG_HqGUtn&ust=1753298792845000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCLi4rI-Z0Y4DFQAAAAAdAAAAABAE',
   },
   {
     _id: '4',
     name: 'Alcohol Antiséptico',
     description: 'Ideal para desinfectar heridas.',
     price: 1.99,
-    imageUrl: 'https://via.placeholder.com/200x180.png?text=Alcohol',
+    imageUrl: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.fybeca.com%2Falcohol-antiseptico-botella-1000-ml-unidad%2FECFY_100204260.html%3Fsrsltid%3DAfmBOorH39H4lraKqOyqwOZtv1tOpFRGd9hoxLvVjzwV33GEHLsuPRA7&psig=AOvVaw00xzrofbpWe6p3nMwrUzCd&ust=1753298817608000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCJCznJuZ0Y4DFQAAAAAdAAAAABAE',
   },
 ];
 // 🔥 FIN - Productos quemados de prueba

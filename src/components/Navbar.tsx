@@ -7,7 +7,7 @@ import { RootState } from '../redux/store';
 export default function NavigationBar() {
   const user = useSelector((state: RootState) => state.user);
   const [role, setRole] = useState<string | null>(null);
-
+ 
   useEffect(() => {
     const storedRole = localStorage.getItem('role');
     setRole(storedRole);
