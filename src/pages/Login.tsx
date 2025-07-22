@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../redux/slices/user.slice';
 import { useNavigate, Link } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
-import API from '../services/api'; // 🔁 Usamos instancia de Axios configurada
+import API from '../api/api'; // 🔁 Usamos instancia de Axios configurada
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');

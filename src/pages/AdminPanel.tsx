@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, Modal, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import API from '../services/api';
+import API from '../api/api';
 
 interface Product {
   id: number;

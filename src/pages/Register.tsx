@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import API from '../services/api';
+import API from '../api/api';
 
 const Register: React.FC = () => {
   const [name, setName] = useState('');
