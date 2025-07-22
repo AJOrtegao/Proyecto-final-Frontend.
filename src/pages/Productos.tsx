@@ -11,11 +11,11 @@ interface Product {
 }
 
 interface ProductosProps {
-  products?: Product[];
+  products?: Product[] | null; // Por si llega null
   addToCart: (product: Product) => void;
 }
 
-// 🔥 Productos quemados para pruebas (reemplazar más adelante con la API)
+// 🔥 INICIO - Productos quemados de prueba
 const sampleProducts: Product[] = [
   {
     _id: '1',
@@ -46,10 +46,10 @@ const sampleProducts: Product[] = [
     imageUrl: 'https://via.placeholder.com/200x180.png?text=Alcohol',
   },
 ];
-// 🔥 Fin productos quemados
+// 🔥 FIN - Productos quemados de prueba
 
-const Productos: React.FC<ProductosProps> = ({ products = [], addToCart }) => {
-  const displayProducts = products.length > 0 ? products : sampleProducts;
+const Productos: React.FC<ProductosProps> = ({ products, addToCart }) => {
+  const displayProducts = Array.isArray(products) && products.length > 0 ? products : sampleProducts;
 
   return (
     <Container className="mt-5">
