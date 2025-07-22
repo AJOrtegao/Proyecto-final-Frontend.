@@ -22,6 +22,7 @@ const Register: React.FC = () => {
     }
 
     try {
+      console.log('📡 BaseURL:', API.defaults.baseURL);
       await API.post('/auth/register', {
         name,
         email,
