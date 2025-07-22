@@ -1,46 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Table, Modal, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import API from '../services/api';
 
 interface Product {
-  _id: string;
+  id: number;
   name: string;
   description: string;
   price: number;
-  imageUrl: string;
+  image: string;
 }
 
-const initialProducts: Product[] = [
+const fallbackProducts: Product[] = [
   {
-    _id: '1',
+    id: 1,
     name: 'Paracetamol 500mg',
     description: 'Alivia el dolor y reduce la fiebre.',
     price: 2.5,
-    imageUrl: 'https://via.placeholder.com/100x80.png?text=Paracetamol',
+    image: 'https://via.placeholder.com/100x80.png?text=Paracetamol',
   },
   {
-    _id: '2',
+    id: 2,
     name: 'Jarabe para la tos',
     description: 'Jarabe expectorante con miel y eucalipto.',
     price: 5.0,
-    imageUrl: 'https://via.placeholder.com/100x80.png?text=Jarabe',
+    image: 'https://via.placeholder.com/100x80.png?text=Jarabe',
   },
 ];
 
 const AdminPanel: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const navigate = useNavigate();
+
+  const [products, setProducts] = useState<Product[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
-  const [formState, setFormState] = useState<Omit<Product, '_id'>>({
+  const [formState, setFormState] = useState<Omit<Product, 'id'>>({
     name: '',
     description: '',
     price: 0,
-    imageUrl: '',
+    image: '',
   });
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+    if (!token || role !== 'admin') navigate('/');
+  }, []);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await API.get('/products');
+      setProducts(response.data.length ? response.data : fallbackProducts);
+    } catch (error) {
+      console.error('Error al obtener productos:', error);
+      setProducts(fallbackProducts); // fallback si falla la API
+    }
+  };
 
   const openModalToAdd = () => {
     setEditingProduct(null);
-    setFormState({ name: '', description: '', price: 0, imageUrl: '' });
+    setFormState({ name: '', description: '', price: 0, image: '' });
     setShowModal(true);
   };
 
@@ -50,33 +74,36 @@ const AdminPanel: React.FC = () => {
       name: product.name,
       description: product.description,
       price: product.price,
-      imageUrl: product.imageUrl,
+      image: product.image,
     });
     setShowModal(true);
   };
 
-  const handleSave = () => {
-    if (editingProduct) {
-      // Editar producto
-      const updated = products.map((p) =>
-        p._id === editingProduct._id ? { ...editingProduct, ...formState } : p
-      );
-      setProducts(updated);
-    } else {
-      // Agregar nuevo producto
-      const newItem: Product = {
-        _id: String(Date.now()),
-        ...formState,
-      };
-      setProducts([...products, newItem]);
+  const handleSave = async () => {
+    try {
+      if (editingProduct) {
+        const updated = await API.put(`/products/${editingProduct.id}`, formState);
+        setProducts((prev) =>
+          prev.map((p) => (p.id === editingProduct.id ? updated.data : p))
+        );
+      } else {
+        const created = await API.post('/products', formState);
+        setProducts((prev) => [...prev, created.data]);
+      }
+      setShowModal(false);
+      setEditingProduct(null);
+    } catch (error) {
+      console.error('Error al guardar producto:', error);
     }
-    setShowModal(false);
-    setEditingProduct(null);
-    setFormState({ name: '', description: '', price: 0, imageUrl: '' });
   };
 
-  const handleDeleteProduct = (id: string) => {
-    setProducts(products.filter((p) => p._id !== id));
+  const handleDeleteProduct = async (id: number) => {
+    try {
+      await API.delete(`/products/${id}`);
+      setProducts((prev) => prev.filter((p) => p.id !== id));
+    } catch (error) {
+      console.error('Error al eliminar producto:', error);
+    }
   };
 
   return (
@@ -98,9 +125,9 @@ const AdminPanel: React.FC = () => {
         </thead>
         <tbody>
           {products.map((product) => (
-            <tr key={product._id}>
+            <tr key={product.id}>
               <td>
-                <img src={product.imageUrl} alt={product.name} width="80" height="60" />
+                <img src={product.image} alt={product.name} width="80" height="60" />
               </td>
               <td>{product.name}</td>
               <td>{product.description}</td>
@@ -117,7 +144,7 @@ const AdminPanel: React.FC = () => {
                 <Button
                   variant="danger"
                   size="sm"
-                  onClick={() => handleDeleteProduct(product._id)}
+                  onClick={() => handleDeleteProduct(product.id)}
                 >
                   Eliminar
                 </Button>
@@ -161,8 +188,8 @@ const AdminPanel: React.FC = () => {
               <Form.Label>URL de Imagen</Form.Label>
               <Form.Control
                 type="text"
-                value={formState.imageUrl}
-                onChange={(e) => setFormState({ ...formState, imageUrl: e.target.value })}
+                value={formState.image}
+                onChange={(e) => setFormState({ ...formState, image: e.target.value })}
               />
             </Form.Group>
           </Form>

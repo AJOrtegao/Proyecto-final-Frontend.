@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
@@ -6,6 +6,12 @@ import { RootState } from '../redux/store';
 
 export default function NavigationBar() {
   const user = useSelector((state: RootState) => state.user);
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem('role');
+    setRole(storedRole);
+  }, []);
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -24,8 +30,7 @@ export default function NavigationBar() {
             <NavLink to="/" end className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Inicio</NavLink>
             <NavLink to="/productos" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Productos</NavLink>
             <NavLink to="/carrito" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Carrito</NavLink>
-            {/* <NavLink to="/pago" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Pagar</NavLink> */}
-            {user.isLoggedIn && user.role === 'admin' && (
+            {role === 'admin' && (
               <NavLink to="/admin" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>Admin Panel</NavLink>
             )}
           </Nav>
@@ -34,4 +39,3 @@ export default function NavigationBar() {
     </Navbar>
   );
 }
-

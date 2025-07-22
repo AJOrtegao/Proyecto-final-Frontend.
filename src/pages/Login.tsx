@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/slices/user.slice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
+import API from '../services/api'; // 🔁 Usamos instancia de Axios configurada
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -17,10 +17,7 @@ const Login: React.FC = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:3001/auth/login', {
-        email,
-        password,
-      });
+      const response = await API.post('/auth/login', { email, password });
 
       const user = response.data.user;
       const token = response.data.access_token;
@@ -30,7 +27,8 @@ const Login: React.FC = () => {
 
       dispatch(login(user));
       navigate('/');
-    } catch (error) {
+    } catch (err) {
+      console.error(err);
       setError('Credenciales incorrectas');
     }
   };
@@ -58,8 +56,16 @@ const Login: React.FC = () => {
             required
           />
         </Form.Group>
-        <Button type="submit" variant="primary" className="w-100">Entrar</Button>
+        <Button type="submit" variant="primary" className="w-100">
+          Entrar
+        </Button>
       </Form>
+
+      {/* Enlace a registro */}
+      <div className="mt-3 text-center">
+        <span>¿No tienes cuenta? </span>
+        <Link to="/register">Regístrate aquí</Link>
+      </div>
     </Container>
   );
 };

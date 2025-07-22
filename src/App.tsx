@@ -15,6 +15,7 @@ import NavigationBar from './components/Navbar';
 import PublicFooter from './components/PublicFooter';
 import API from './api/api';
 import './App.css';
+import Register from './pages/Register';
 
 interface Product {
   _id: string;
@@ -66,6 +67,7 @@ const App: React.FC = () => {
         <NavigationBar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/contacto" element={<ContactPage />} />
           <Route path="/productos" element={<Productos products={products} addToCart={addToCart} />} />
           <Route path="/carrito" element={<PrivateRoute><Cart cart={cart} setCart={setCart} removeFromCart={removeFromCart} calculateTotal={calculateTotal}/></PrivateRoute>} />
