@@ -46,7 +46,7 @@ const AdminPanel: React.FC = () => {
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
     if (!token || role !== 'admin') navigate('/');
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     fetchProducts();
